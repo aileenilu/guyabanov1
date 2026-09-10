@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer utilities {
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #d4a50e 0%, #f8d84a 50%, #c8960a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-shimmer {
+    background: linear-gradient(90deg, #d4a50e 0%, #f8d84a 25%, #d4a50e 50%, #f8d84a 75%, #d4a50e 100%);
+    background-size: 200% auto;
+    animation: shimmer 2s linear infinite;
+  }
+
+  .btn-glow {
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  .btn-pulse {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-pulse::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s, opacity 0.6s;
+    opacity: 0;
+  }
+
+  .btn-pulse:active::after {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .hero-gradient {
+    background: linear-gradient(160deg, #0a2319 0%, #133e2d 40%, #1a5e42 80%, #2d9166 100%);
+  }
+
+  .section-divider {
+    background: linear-gradient(90deg, transparent, #2d9166, transparent);
+    height: 2px;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(212, 165, 14, 0.4), 0 4px 15px rgba(0,0,0,0.2); }
+  50% { box-shadow: 0 0 40px rgba(212, 165, 14, 0.8), 0 4px 20px rgba(0,0,0,0.3); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
