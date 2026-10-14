@@ -96,7 +96,7 @@ const packages = [
     sf: 149,
     total: 3147,
     disc: 551,
-    image: "/pack2.jpg",
+    image: "/pack5.jpg",
     highlight: true,
   },
 ];
