@@ -228,7 +228,7 @@ export default function App() {
         address: form.address.trim(),
         quantity: pkg.quantity,
         package: pkg.id,
-        total_price: pkg.price,
+        total_price: pkg.total,
         notes: form.notes.trim() || null,
       };
 
