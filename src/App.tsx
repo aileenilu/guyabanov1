@@ -162,8 +162,6 @@ export default function App() {
 
       const timer = setTimeout(() => {
         // Change "YOUR_PAGE_USERNAME" to your exact Facebook Page username handle
-        const pageUsername = "/ZynergiaSagipKalusugan"; 
-        
         window.location.href = `https://m.me/ZynergiaSagipKalusugan?text=${encodeURIComponent(orderMessage)}`; 
       }, 3500); // 
 
@@ -172,9 +170,9 @@ export default function App() {
   }, [submitted, form, selectedPackage]);
 
   useEffect(() => {
-    const handleContextMenu = (e) => e.preventDefault();
-    const handleDragStart = (e) => e.preventDefault();
-    const handleKeyDown = (e) => {
+    const handleContextMenu = (e: Event) => e.preventDefault();
+    const handleDragStart = (e: Event) => e.preventDefault();
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (
         (e.ctrlKey && e.key === "s") || 
         (e.metaKey && e.key === "s") || 
@@ -426,6 +424,12 @@ export default function App() {
             >
               <source src="/winevid.mp4" type="video/mp4" />
             </video>
+            {/* FLOATING WATERMARK OVERLAY */}
+  <div className="absolute inset-0 pointer-events-none flex flex-wrap items-center justify-center gap-16 overflow-hidden opacity-10 select-none">
+    <span className="text-white text-xl font-bold tracking-widest uppercase rotate-[-30deg]">GUYABANO WINE PH</span>
+    <span className="text-white text-xl font-bold tracking-widest uppercase rotate-[-30deg]">GUYABANO WINE PH</span>
+    <span className="text-white text-xl font-bold tracking-widest uppercase rotate-[-30deg]">GUYABANO WINE PH</span>
+  </div>
             {!videoPlaying && (
               <button
                 className="absolute inset-0 flex items-center justify-center bg-black/30 group"
@@ -592,12 +596,18 @@ remove */}
 </div>     
 
             <div> <p> <br /> <br />   </p> </div>
-        <div>
+        <div className="relative mx-auto w-fit overflow-hidden rounded-2xl shadow-2xl">
               <img
                 src="/testimony2.jpg"
                 alt="Testimonials"
-                className="w-full max-w-4xl mx-auto rounded-2xl shadow-2xl object-cover"
+                className="w-full max-w-2xl h-auto block pointer-events-none select-none"
               />
+          {/* 3. The FLOATING WATERMARK OVERLAY mapped onto the image frame layout */}
+  <div className="absolute inset-0 pointer-events-none flex flex-wrap items-center justify-left gap-20 overflow-hidden opacity-75 select-none z-10">
+    <span className="text-white text-xl font-bold tracking-widest uppercase rotate-[-20deg]"> - </span>
+    <span className="text-gold text-x1 font-bold tracking-widest uppercase rotate-[0deg]"><br></br><br></br>ZYNERGIA GABAY KALUSUGAN </span>
+    <span className="text-white text-xl font-bold tracking-widest uppercase rotate-[-20deg]"> - </span>
+  </div>
             </div>
         <div> <p> <br /> <br />   </p> </div>
 
@@ -702,44 +712,67 @@ remove */}
 
               
 {/* Package selection */}
+<div className="flex flex-wrap gap-12 justify-center items-center">
+  {[
+    { src: "/cod.jpg", alt: "Cash on Delivery Nationwide" },
+    { src: "/jnt.png", alt: "Jnt Express" },
+    { src: "/lbc.png", alt: "LBC Express" },
+    { src: "/spx.webp", alt: "SPX Express" }
+  ].map((tag) => (
+    <span
+      key={tag.alt}
+      className="flex items-center  border border-white/20 bg-white/5 rounded-xl p-1 transition-transform hover:scale-105"
+    >
+      <img 
+        src={tag.src} 
+        alt={tag.alt} 
+        className="h-[75px] w-auto object-contain" 
+        loading="lazy"
+      />
+    </span>
+  ))}
+</div>
 <div className="space-y-3">
   <label className="block text-white font-semibold">Pumili ang Package</label>
-  <div className="grid grid-cols-2 gap-4">
+  
+  {/* Changed to 1 column on mobile, 2 columns on small screens and up */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
     {packages.map((pkg) => (
       <button
-  key={pkg.id}
-  type="button"
-  onClick={() => handlePackageSelect(pkg.id)}
-  className={`relative rounded-xl border-2 p-4 text-left transition-all duration-200 flex flex-col justify-between ${
-    selectedPackage === pkg.id
-      ? "border-gold-500 bg-gold-500/10"
-      : "border-forest-600 bg-forest-900/60 hover:border-forest-500"
-  }`}
->
-  {pkg.tag && (
-    <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-500 text-forest-950 text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap z-10">
-      {pkg.tag}
-    </span>
-  )}
+        key={pkg.id}
+        type="button"
+        onClick={() => handlePackageSelect(pkg.id)}
+        className={`relative rounded-xl border-2 p-4 text-left transition-all duration-200 flex flex-col justify-between items-center w-full
+          ${selectedPackage === pkg.id
+            ? "border-gold-500 bg-gold-500/10 ring-2 ring-gold-500/20"
+            : "border-forest-600 bg-forest-900/60 hover:border-forest-500"
+          }`}
+      >
+        {/* Floating Promo Tag */}
+        {pkg.tag && (
+          <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-500 text-forest-950 text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap z-10 shadow-md">
+            {pkg.tag}
+          </span>
+        )}
 
-  <div className="w-full aspect-[4/3] mb-3 rounded-lg overflow-hidden bg-forest-950/30 flex items-center justify-center relative">
-    <img 
-      src={pkg.image || "/placeholder-package.png"} 
-      alt={pkg.label}
-      className="max-w-full max-h-full object-contain pointer-events-none select-none" 
-    />
-  </div>
+        {/* Responsive Image Aspect Frame Container */}
+        <div className="w-full aspect-[4/3] mb-1 rounded-lg overflow-hidden bg-forest-950/30 flex items-center justify-center relative">
+          <img 
+            src={pkg.image || "/placeholder-package.png"} 
+            alt={pkg.label}
+            className="max-w-full max-h-full object-contain pointer-events-none select-none p-1" 
+          />
+        </div>
 
- 
-  {selectedPackage === pkg.id && (
-    <CheckCircle2 className="absolute top-3 right-3 w-5 h-5 text-gold-400 z-10 bg-forest-950 rounded-full" />
-  )}
-</button>
-
+        {/* Floating Selection Checkmark Indicator Icon */}
+        {selectedPackage === pkg.id && (
+          <CheckCircle2 className="absolute top-3 right-3 w-5 h-5 text-gold-400 z-10 bg-forest-950 rounded-full shadow" />
+        )}
+      </button>
     ))}
   </div>
 </div>
-             
+      
 
              {/* Total price display */}
 <div className="bg-forest-950/50 border border-gold-500/30 rounded-xl px-5 py-4 space-y-2">
@@ -961,7 +994,7 @@ remove */}
 • Manok (Poultry chicken) 
           </span> <br />
           </p> <br />
-   <div classname="flex items-center justify-center">
+   <div className="flex items-center justify-center">
              <img
                 src="/c5615e2036fc8b44bc034095e62ae4d6_GUYABANO_WINE.jpg"
                 alt="Nature's Finest Guyabano Wine"
@@ -969,7 +1002,29 @@ remove */}
               />
   </div></div></div>
            </div></div>
-                <br></br><br></br><br></br>
+                <br /><br /><br />
+
+<div className="flex flex-wrap gap-7 justify-center items-center">
+  {[
+    { src: "/cod.jpg", alt: "100% Natural" },
+    { src: "/jnt.png", alt: "Walang Preservatives" },
+    { src: "/lbc.png", alt: "Wellness Drink" },
+    { src: "/spx.webp", alt: "Pang-araw-araw" }
+  ].map((tag) => (
+    <span
+      key={tag.alt}
+      className="flex items-center  border border-white/20 bg-white/5 rounded-xl p-1 transition-transform hover:scale-105"
+    >
+      <img 
+        src={tag.src} 
+        alt={tag.alt} 
+        className="h-[100px] w-auto object-contain" 
+        loading="lazy"
+      />
+    </span>
+  ))}
+</div>
+
  <div className="max-w-4xl mx-auto px-4 text-center space-y-6">
           <h3 className="font-serif text-3xl font-bold text-white">
             Para sa mga <span className="text-gold-gradient">Katanungan</span>
