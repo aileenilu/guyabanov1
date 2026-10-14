@@ -13,6 +13,12 @@
     <meta name="twitter:image" content="https://guyabanowine.vercel.app/legit.png" />
     <!-- Meta Pixel Code -->
     <script>
+  const ogImage = document.querySelector('meta[property="og:image"]');
+  if (ogImage) {
+    ogImage.setAttribute('content', window.location.origin + '/legit.png');
+  }
+</script>
+    <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};
