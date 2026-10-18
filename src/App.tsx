@@ -246,6 +246,15 @@ export default function App() {
       }).catch(() => {});
 
       setSubmitted(true);
+
+      // ✅ PLACE THE FACEBOOK PIXEL PURCHASE EVENT HERE
+      if (typeof window !== "undefined" && (window as any).fbq) {
+        (window as any).fbq('track', 'Purchase', {
+          value: pkg.total,     // Dynamic price (1649 or 3147)
+          currency: 'PHP'       // Changed to match your store currency
+        });
+}
+      
     } catch (err: unknown) {
       setSubmitError("May nangyaring error. Pakiulit muli o makipag-ugnayan sa amin.");
       console.error(err);
